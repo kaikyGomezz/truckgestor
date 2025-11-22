@@ -26,12 +26,16 @@ function runMigrations() {
       );
     `);
 
-    // Cria usuário admin padrão se não existir
+    // Cria / atualiza usuário admin padrão (senha: 123456)
     db.run(`
-      INSERT OR IGNORE INTO users (id, username, password_hash, role)
-      VALUES (1, 'admin', '$2b$10$u3nTn0uSEakZSPnf9zb4ruKyWZZzKzbwQ6vurIWBLL8/yvW0XkyVG', 'admin');
+      INSERT OR REPLACE INTO users (id, username, password_hash, role)
+      VALUES (
+        1,
+        'admin',
+        '$2b$12$R7ogaE4EkUMfrLdUrYiKM.lksb8xeXivhOYEp70kB/ZmvAMzKguBO',
+        'admin'
+      );
     `);
-    // Senha: 123456
 
 
     // ============================
