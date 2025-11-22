@@ -2,13 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Controle de Gastos - Empresa de Caminhões</title>
+  <title>TruckGestor - Controle de Frota</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- BACKGROUND DE VÍDEO PARA A PÁGINA DE LOGIN -->
   <video autoplay muted loop playsinline id="login-video-bg">
-    <source src="video/login-bg.mp4" type="video/mp4">
+    <source src="video/login-bg.mp4" type="video/mp4" />
   </video>
 
   <!-- PÁGINA DE LOGIN -->
@@ -18,13 +19,13 @@
         <div class="logo-mark">TG</div>
         <div>
           <h1>TruckGestor</h1>
-          <p>Controle de gastos da frota</p>
+          <p>Gestão de gastos da frota em um só lugar</p>
         </div>
       </div>
 
-      <h2>Acessar painel</h2>
+      <h2>Entrar no painel</h2>
       <p class="login-subtitle">
-        Faça login para cadastrar motoristas, caminhões e lançar os gastos das viagens.
+        Acesse o painel para cadastrar motoristas, cavalos, carretas, pneus e controlar os gastos.
       </p>
 
       <form id="login-form" class="form-grid">
@@ -59,8 +60,11 @@
       </div>
       <div class="admin-header-right">
         <nav class="admin-nav">
-          <button class="nav-btn active" data-section="drivers-section">Motoristas</button>
-          <button class="nav-btn" data-section="trucks-section">Caminhões</button>
+          <button class="nav-btn active" data-section="dashboard-section">Dashboard</button>
+          <button class="nav-btn" data-section="drivers-section">Motoristas</button>
+          <button class="nav-btn" data-section="trucks-section">Cavalos</button>
+          <button class="nav-btn" data-section="trailers-section">Carretas</button>
+          <button class="nav-btn" data-section="tires-section">Pneus</button>
           <button class="nav-btn" data-section="expenses-section">Lançar gastos</button>
           <button class="nav-btn" data-section="report-section">Relatórios</button>
         </nav>
@@ -69,46 +73,71 @@
     </header>
 
     <main class="admin-main">
+      <!-- INTRO -->
       <section class="admin-intro">
         <h1>Visão geral da frota</h1>
-        <p>Cadastre motoristas, controle os caminhões e registre todos os gastos em um só lugar.</p>
+        <p>Controle motoristas, veículos, pneus e todos os gastos da sua operação em tempo real.</p>
       </section>
 
-      <!-- DASHBOARD: RESUMO -->
-      <section class="dashboard-summary">
-        <div class="summary-card glass-soft">
-          <span class="summary-label">Total do mês</span>
-          <span class="summary-value" id="summary-total">R$ 0,00</span>
-          <span class="summary-hint" id="summary-month">—</span>
+      <!-- DASHBOARD -->
+      <section id="dashboard-section" class="content-section active">
+        <div class="dashboard-summary">
+          <div class="summary-card glass-soft">
+            <span class="summary-label">Total do mês</span>
+            <span class="summary-value" id="summary-total">R$ 0,00</span>
+            <span class="summary-hint" id="summary-month">—</span>
+          </div>
+          <div class="summary-card glass-soft">
+            <span class="summary-label">Gastos lançados</span>
+            <span class="summary-value" id="summary-count">0</span>
+            <span class="summary-hint">lançamentos no mês</span>
+          </div>
+          <div class="summary-card glass-soft">
+            <span class="summary-label">Motorista com maior gasto</span>
+            <span class="summary-value" id="summary-top-driver">—</span>
+            <span class="summary-hint" id="summary-top-driver-total">R$ 0,00</span>
+          </div>
         </div>
-        <div class="summary-card glass-soft">
-          <span class="summary-label">Gastos lançados</span>
-          <span class="summary-value" id="summary-count">0</span>
-          <span class="summary-hint">lançamentos no mês</span>
-        </div>
-        <div class="summary-card glass-soft">
-          <span class="summary-label">Motorista com maior gasto</span>
-          <span class="summary-value" id="summary-top-driver">—</span>
-          <span class="summary-hint" id="summary-top-driver-total">R$ 0,00</span>
+
+        <div class="card glass-soft">
+          <div class="card-header">
+            <h2>Resumo rápido</h2>
+            <p>Use os relatórios para detalhar por motorista, cavalo, carreta ou pneu.</p>
+          </div>
+          <p style="font-size:0.85rem; color:#6b7280;">
+            Este painel mostra um resumo do mês atual. Para filtrar por período,
+            motorista ou veículo, utilize a aba <strong>Relatórios</strong>.
+          </p>
         </div>
       </section>
 
       <!-- MOTORISTAS -->
-      <section id="drivers-section" class="content-section active">
+      <section id="drivers-section" class="content-section">
         <div class="card glass-soft">
           <div class="card-header">
             <h2>Motoristas</h2>
-            <p>Cadastro simples dos motoristas que entregam as cargas.</p>
+            <p>Cadastre e gerencie os motoristas da sua frota.</p>
           </div>
 
           <form id="driver-form" class="form-grid two-cols">
             <div>
-              <label for="driver-name">Nome do motorista *</label>
+              <label for="driver-name">Nome *</label>
               <input type="text" id="driver-name" required placeholder="Ex: João da Silva" />
             </div>
             <div>
               <label for="driver-phone">Telefone</label>
               <input type="text" id="driver-phone" placeholder="(00) 00000-0000" />
+            </div>
+            <div>
+              <label for="driver-cnh">CNH (opcional)</label>
+              <input type="text" id="driver-cnh" placeholder="Número da CNH" />
+            </div>
+            <div>
+              <label for="driver-status">Status</label>
+              <select id="driver-status">
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+              </select>
             </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-primary">Salvar motorista</button>
@@ -119,18 +148,18 @@
         <div class="card glass-soft">
           <div class="card-header">
             <h3>Lista de motoristas</h3>
-            <p>Visualize rapidamente quem está ativo na frota.</p>
+            <p>Motoristas cadastrados no sistema.</p>
           </div>
           <ul id="drivers-list" class="simple-list"></ul>
         </div>
       </section>
 
-      <!-- CAMINHÕES -->
+      <!-- CAVALOS (TRUCKS) -->
       <section id="trucks-section" class="content-section">
         <div class="card glass-soft">
           <div class="card-header">
-            <h2>Caminhões</h2>
-            <p>Registre os veículos para vincular os gastos à frota.</p>
+            <h2>Cavalos (caminhões)</h2>
+            <p>Registre as informações dos cavalos mecânicos.</p>
           </div>
 
           <form id="truck-form" class="form-grid three-cols">
@@ -144,20 +173,128 @@
             </div>
             <div>
               <label for="truck-year">Ano</label>
-              <input type="number" id="truck-year" placeholder="2023" />
+              <input type="number" id="truck-year" placeholder="2022" />
+            </div>
+            <div>
+              <label for="truck-odometer">Odômetro atual (km)</label>
+              <input type="number" id="truck-odometer" placeholder="150000" />
+            </div>
+            <div>
+              <label for="truck-status">Status</label>
+              <select id="truck-status">
+                <option value="ativo">Ativo</option>
+                <option value="parado">Parado</option>
+                <option value="manutencao">Manutenção</option>
+              </select>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Salvar caminhão</button>
+              <button type="submit" class="btn btn-primary">Salvar cavalo</button>
             </div>
           </form>
         </div>
 
         <div class="card glass-soft">
           <div class="card-header">
-            <h3>Lista de caminhões</h3>
-            <p>Placa, modelo e ano cadastrados.</p>
+            <h3>Lista de cavalos</h3>
+            <p>Visualize rapidamente os veículos da frota.</p>
           </div>
           <ul id="trucks-list" class="simple-list"></ul>
+        </div>
+      </section>
+
+      <!-- CARRETAS -->
+      <section id="trailers-section" class="content-section">
+        <div class="card glass-soft">
+          <div class="card-header">
+            <h2>Carretas</h2>
+            <p>Cadastre suas carretas (baú, graneleira, frigorífica, etc.).</p>
+          </div>
+
+          <form id="trailer-form" class="form-grid three-cols">
+            <div>
+              <label for="trailer-plate">Placa *</label>
+              <input type="text" id="trailer-plate" required placeholder="Ex: DEF2G34" />
+            </div>
+            <div>
+              <label for="trailer-type">Tipo</label>
+              <input type="text" id="trailer-type" placeholder="Baú, graneleira, frigorífica..." />
+            </div>
+            <div>
+              <label for="trailer-year">Ano</label>
+              <input type="number" id="trailer-year" placeholder="2020" />
+            </div>
+            <div>
+              <label for="trailer-status">Status</label>
+              <select id="trailer-status">
+                <option value="ativa">Ativa</option>
+                <option value="parada">Parada</option>
+                <option value="manutencao">Manutenção</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Salvar carreta</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card glass-soft">
+          <div class="card-header">
+            <h3>Lista de carretas</h3>
+            <p>Controle placas, tipos e status.</p>
+          </div>
+          <ul id="trailers-list" class="simple-list"></ul>
+        </div>
+      </section>
+
+      <!-- PNEUS -->
+      <section id="tires-section" class="content-section">
+        <div class="card glass-soft">
+          <div class="card-header">
+            <h2>Pneus</h2>
+            <p>Controle cada pneu individualmente para acompanhar custos e vida útil.</p>
+          </div>
+
+          <form id="tire-form" class="form-grid three-cols">
+            <div>
+              <label for="tire-code">Código / ID *</label>
+              <input type="text" id="tire-code" required placeholder="Ex: PN-001" />
+            </div>
+            <div>
+              <label for="tire-brand">Marca</label>
+              <input type="text" id="tire-brand" placeholder="Ex: Michelin" />
+            </div>
+            <div>
+              <label for="tire-model">Modelo</label>
+              <input type="text" id="tire-model" placeholder="Ex: X Multi" />
+            </div>
+            <div>
+              <label for="tire-purchase-date">Data de compra</label>
+              <input type="date" id="tire-purchase-date" />
+            </div>
+            <div>
+              <label for="tire-purchase-value">Valor de compra (R$)</label>
+              <input type="number" step="0.01" id="tire-purchase-value" />
+            </div>
+            <div>
+              <label for="tire-state">Estado</label>
+              <select id="tire-state">
+                <option value="estoque">Em estoque</option>
+                <option value="em_uso">Em uso</option>
+                <option value="descartado">Descartado</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Salvar pneu</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card glass-soft">
+          <div class="card-header">
+            <h3>Lista de pneus</h3>
+            <p>Pneus cadastrados e estado atual.</p>
+          </div>
+          <ul id="tires-list" class="simple-list"></ul>
         </div>
       </section>
 
@@ -166,45 +303,63 @@
         <div class="card glass-soft">
           <div class="card-header">
             <h2>Lançar gastos</h2>
-            <p>Associe cada gasto ao motorista e, se quiser, ao caminhão.</p>
+            <p>Registre os gastos e associe a motorista, cavalo, carreta e pneu quando fizer sentido.</p>
           </div>
 
           <form id="expense-form" class="form-grid three-cols">
             <div>
-              <label for="expense-driver">Motorista *</label>
-              <select id="expense-driver" required></select>
+              <label for="expense-driver">Motorista</label>
+              <select id="expense-driver">
+                <!-- carregado via JS -->
+              </select>
             </div>
             <div>
-              <label for="expense-truck">Caminhão (opcional)</label>
+              <label for="expense-truck">Cavalo</label>
               <select id="expense-truck">
                 <option value="">Nenhum</option>
               </select>
             </div>
             <div>
-              <label for="expense-category">Categoria *</label>
-              <select id="expense-category" required></select>
+              <label for="expense-trailer">Carreta</label>
+              <select id="expense-trailer">
+                <option value="">Nenhuma</option>
+              </select>
             </div>
-
+            <div>
+              <label for="expense-tire">Pneu</label>
+              <select id="expense-tire">
+                <option value="">Nenhum</option>
+              </select>
+            </div>
+            <div>
+              <label for="expense-category">Categoria *</label>
+              <select id="expense-category" required>
+                <!-- categorias carregadas via JS -->
+              </select>
+            </div>
             <div>
               <label for="expense-date">Data *</label>
               <input type="date" id="expense-date" required />
             </div>
             <div>
               <label for="expense-value">Valor (R$) *</label>
-              <input type="number" step="0.01" id="expense-value" required placeholder="0,00" />
+              <input type="number" step="0.01" id="expense-value" required />
             </div>
             <div>
-              <label for="expense-invoice">Número da nota fiscal</label>
+              <label for="expense-odometer">Odômetro (km)</label>
+              <input type="number" id="expense-odometer" placeholder="Obrigatório para combustível/manutenção" />
+            </div>
+            <div>
+              <label for="expense-invoice">Número da NF</label>
               <input type="text" id="expense-invoice" placeholder="Ex: 000123" />
             </div>
-
             <div>
               <label for="expense-supplier">Fornecedor</label>
               <input type="text" id="expense-supplier" placeholder="Ex: Posto BR - Rodovia" />
             </div>
             <div class="full-width">
               <label for="expense-description">Observações</label>
-              <textarea id="expense-description" rows="3" placeholder="Ex: Abastecimento completo + calibragem"></textarea>
+              <textarea id="expense-description" rows="3" placeholder="Descrição do gasto, observações, etc."></textarea>
             </div>
 
             <div class="form-actions">
@@ -214,12 +369,12 @@
         </div>
       </section>
 
-      <!-- RELATÓRIO -->
+      <!-- RELATÓRIOS -->
       <section id="report-section" class="content-section">
         <div class="card glass-soft">
           <div class="card-header">
             <h2>Relatórios</h2>
-            <p>Filtre os gastos e gere uma visão consolidada da frota.</p>
+            <p>Filtre e analise os gastos por período, motorista, cavalo, carreta, pneu e categoria.</p>
           </div>
 
           <form id="filter-form" class="form-grid four-cols">
@@ -230,8 +385,20 @@
               </select>
             </div>
             <div>
-              <label for="filter-truck">Caminhão</label>
+              <label for="filter-truck">Cavalo</label>
               <select id="filter-truck">
+                <option value="">Todos</option>
+              </select>
+            </div>
+            <div>
+              <label for="filter-trailer">Carreta</label>
+              <select id="filter-trailer">
+                <option value="">Todas</option>
+              </select>
+            </div>
+            <div>
+              <label for="filter-tire">Pneu</label>
+              <select id="filter-tire">
                 <option value="">Todos</option>
               </select>
             </div>
@@ -249,7 +416,6 @@
               <label for="filter-end">Data final</label>
               <input type="date" id="filter-end" />
             </div>
-
             <div class="form-actions">
               <button type="submit" class="btn btn-primary btn-small">Aplicar filtros</button>
             </div>
@@ -261,7 +427,7 @@
               <div class="totais-motorista" id="total-by-driver"></div>
             </div>
             <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-              <button type="button" class="btn btn-secondary" onclick="exportCsv()">Exportar CSV</button>
+              <button type="button" class="btn btn-secondary" id="btn-export-csv">Exportar CSV</button>
               <button type="button" class="btn btn-secondary" onclick="window.print()">Imprimir / Salvar em PDF</button>
             </div>
           </div>
@@ -272,11 +438,14 @@
                 <tr>
                   <th>Data</th>
                   <th>Motorista</th>
-                  <th>Caminhão</th>
+                  <th>Cavalo</th>
+                  <th>Carreta</th>
+                  <th>Pneu</th>
                   <th>Categoria</th>
                   <th>Valor (R$)</th>
-                  <th>Nota Fiscal</th>
+                  <th>NF</th>
                   <th>Fornecedor</th>
+                  <th>Odômetro</th>
                   <th>Observações</th>
                 </tr>
               </thead>
@@ -288,416 +457,6 @@
     </main>
   </div>
 
-  <script>
-    const API_BASE = '';
-
-    const loginVideo = document.getElementById('login-video-bg');
-    const loginPage = document.getElementById('login-page');
-    const adminPage = document.getElementById('admin-page');
-    const loginForm = document.getElementById('login-form');
-    const logoutBtn = document.getElementById('logout-btn');
-
-    const navButtons = document.querySelectorAll('.nav-btn');
-    const contentSections = document.querySelectorAll('.content-section');
-
-    // começa só com login
-    adminPage.style.display = 'none';
-    if (loginVideo) loginVideo.style.display = 'block';
-
-    // índice da seção atual (para slide left/right)
-    let currentSectionIndex = 0; // 0 = Motoristas
-
-    // ==== LOGIN COM ANIMAÇÃO ====
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const username = document.getElementById('login-user').value;
-      const password = document.getElementById('login-pass').value;
-
-      try {
-        const res = await fetch(`${API_BASE}/api/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        });
-
-        if (!res.ok) {
-          alert('Usuário ou senha inválidos');
-          return;
-        }
-
-        // Transição login → admin
-        loginPage.style.display = 'none';
-        if (loginVideo) loginVideo.style.display = 'none';
-
-        adminPage.style.display = 'flex';
-        adminPage.classList.add('page-enter');
-        setTimeout(() => {
-          adminPage.classList.remove('page-enter');
-        }, 500);
-
-        initApp();
-      } catch (err) {
-        alert('Erro ao fazer login');
-      }
-    });
-
-    // ==== LOGOUT COM ANIMAÇÃO ====
-    function doLogout() {
-      adminPage.style.display = 'none';
-
-      if (loginVideo) loginVideo.style.display = 'block';
-      loginPage.style.display = 'flex';
-      loginPage.classList.add('page-enter');
-      setTimeout(() => {
-        loginPage.classList.remove('page-enter');
-      }, 500);
-
-      loginForm.reset();
-      document.getElementById('login-user').focus();
-    }
-
-    logoutBtn.addEventListener('click', doLogout);
-
-    // ==== NAVEGAÇÃO ENTRE SEÇÕES (SLIDE HORIZONTAL) ====
-    navButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-section');
-        const buttonsArray = Array.from(navButtons);
-        const newIndex = buttonsArray.indexOf(btn);
-
-        if (newIndex === currentSectionIndex) return; // já está na aba
-
-        const direction = newIndex > currentSectionIndex ? 'right' : 'left';
-
-        // alterna botões ativos
-        navButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // alterna seções com slide
-        contentSections.forEach(sec => {
-          sec.classList.remove('slide-in-left', 'slide-in-right');
-
-          if (sec.id === targetId) {
-            sec.classList.add('active');
-            void sec.offsetWidth; // reflow pra reiniciar animação
-            sec.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
-          } else {
-            sec.classList.remove('active');
-          }
-        });
-
-        currentSectionIndex = newIndex;
-      });
-    });
-
-    // ==== DASHBOARD ====
-    async function loadDashboard() {
-      try {
-        const res = await fetch(`${API_BASE}/api/dashboard`);
-        if (!res.ok) return;
-
-        const data = await res.json();
-
-        const totalSpan = document.getElementById('summary-total');
-        const monthSpan = document.getElementById('summary-month');
-        const countSpan = document.getElementById('summary-count');
-        const topDriverSpan = document.getElementById('summary-top-driver');
-        const topDriverTotalSpan = document.getElementById('summary-top-driver-total');
-
-        const formatMoney = (v) =>
-          'R$ ' + Number(v || 0).toFixed(2).replace('.', ',');
-
-        totalSpan.textContent = formatMoney(data.totalMonth);
-        monthSpan.textContent = `Mês: ${data.month}`;
-        countSpan.textContent = data.countMonth || 0;
-
-        if (data.topDriver) {
-          topDriverSpan.textContent = data.topDriver.name;
-          topDriverTotalSpan.textContent = formatMoney(data.topDriver.total);
-        } else {
-          topDriverSpan.textContent = '—';
-          topDriverTotalSpan.textContent = 'R$ 0,00';
-        }
-      } catch (err) {
-        console.error('Erro ao carregar dashboard', err);
-      }
-    }
-
-    // ==== CARREGAMENTO DE DADOS ====
-    async function loadDrivers() {
-      const res = await fetch(`${API_BASE}/api/drivers`);
-      const drivers = await res.json();
-
-      const list = document.getElementById('drivers-list');
-      const selectExpense = document.getElementById('expense-driver');
-      const selectFilter = document.getElementById('filter-driver');
-
-      list.innerHTML = '';
-      selectExpense.innerHTML = '';
-      selectFilter.innerHTML = '<option value="">Todos</option>';
-
-      drivers.forEach(d => {
-        const li = document.createElement('li');
-        li.textContent = d.name + (d.phone ? ` (${d.phone})` : '') + (d.active ? '' : ' (inativo)');
-        list.appendChild(li);
-
-        if (d.active) {
-          const opt = document.createElement('option');
-          opt.value = d.id;
-          opt.textContent = d.name;
-          selectExpense.appendChild(opt);
-
-          const opt2 = document.createElement('option');
-          opt2.value = d.id;
-          opt2.textContent = d.name;
-          selectFilter.appendChild(opt2);
-        }
-      });
-    }
-
-    async function loadTrucks() {
-      const res = await fetch(`${API_BASE}/api/trucks`);
-      const trucks = await res.json();
-
-      const list = document.getElementById('trucks-list');
-      const selectExpense = document.getElementById('expense-truck');
-      const selectFilter = document.getElementById('filter-truck');
-
-      list.innerHTML = '';
-      selectExpense.innerHTML = '<option value="">Nenhum</option>';
-      selectFilter.innerHTML = '<option value="">Todos</option>';
-
-      trucks.forEach(t => {
-        const li = document.createElement('li');
-        li.textContent = `${t.plate} ${t.model ? '- ' + t.model : ''} ${t.year ? '(' + t.year + ')' : ''}`;
-        list.appendChild(li);
-
-        if (t.active) {
-          const opt = document.createElement('option');
-          opt.value = t.id;
-          opt.textContent = t.plate;
-          selectExpense.appendChild(opt);
-
-          const opt2 = document.createElement('option');
-          opt2.value = t.id;
-          opt2.textContent = t.plate;
-          selectFilter.appendChild(opt2);
-        }
-      });
-    }
-
-    async function loadCategories() {
-      const res = await fetch(`${API_BASE}/api/categories`);
-      const categories = await res.json();
-
-      const selectExpense = document.getElementById('expense-category');
-      const selectFilter = document.getElementById('filter-category');
-
-      selectExpense.innerHTML = '';
-      selectFilter.innerHTML = '<option value="">Todas</option>';
-
-      categories.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c.id;
-        opt.textContent = c.name;
-        selectExpense.appendChild(opt);
-
-        const opt2 = document.createElement('option');
-        opt2.value = c.id;
-        opt2.textContent = c.name;
-        selectFilter.appendChild(opt2);
-      });
-    }
-
-    async function loadExpenses() {
-      const params = new URLSearchParams();
-      const filterDriver = document.getElementById('filter-driver').value;
-      const filterTruck = document.getElementById('filter-truck').value;
-      const filterCategory = document.getElementById('filter-category').value;
-      const filterStart = document.getElementById('filter-start').value;
-      const filterEnd = document.getElementById('filter-end').value;
-
-      if (filterDriver) params.append('driver_id', filterDriver);
-      if (filterTruck) params.append('truck_id', filterTruck);
-      if (filterCategory) params.append('category_id', filterCategory);
-      if (filterStart) params.append('start_date', filterStart);
-      if (filterEnd) params.append('end_date', filterEnd);
-
-      const res = await fetch(`${API_BASE}/api/expenses?` + params.toString());
-      const data = await res.json();
-      const tbody = document.querySelector('#expenses-table tbody');
-      const totalDisplay = document.getElementById('total-display');
-      const totalByDriverDiv = document.getElementById('total-by-driver');
-
-      tbody.innerHTML = '';
-
-      data.expenses.forEach(e => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${e.date}</td>
-          <td>${e.driver_name}</td>
-          <td>${e.truck_plate || ''}</td>
-          <td>${e.category_name}</td>
-          <td>${e.value.toFixed(2)}</td>
-          <td>${e.invoice_number || ''}</td>
-          <td>${e.supplier || ''}</td>
-          <td>${e.description || ''}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-
-      totalDisplay.textContent = 'Total: R$ ' + data.total.toFixed(2);
-
-      if (data.totalByDriver && data.totalByDriver.length > 0) {
-        let html = '<strong>Total por motorista:</strong><ul>';
-        data.totalByDriver.forEach(td => {
-          html += `<li>${td.driver_name}: R$ ${td.total.toFixed(2)}</li>`;
-        });
-        html += '</ul>';
-        totalByDriverDiv.innerHTML = html;
-      } else {
-        totalByDriverDiv.innerHTML = '';
-      }
-    }
-
-    // ==== EXPORT CSV ====
-    async function exportCsv() {
-      const params = new URLSearchParams();
-      const filterDriver = document.getElementById('filter-driver').value;
-      const filterTruck = document.getElementById('filter-truck').value;
-      const filterCategory = document.getElementById('filter-category').value;
-      const filterStart = document.getElementById('filter-start').value;
-      const filterEnd = document.getElementById('filter-end').value;
-
-      if (filterDriver) params.append('driver_id', filterDriver);
-      if (filterTruck) params.append('truck_id', filterTruck);
-      if (filterCategory) params.append('category_id', filterCategory);
-      if (filterStart) params.append('start_date', filterStart);
-      if (filterEnd) params.append('end_date', filterEnd);
-
-      try {
-        const res = await fetch(`${API_BASE}/api/expenses/export?` + params.toString());
-        if (!res.ok) {
-          alert('Erro ao exportar CSV');
-          return;
-        }
-
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'gastos.csv';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      } catch (err) {
-        console.error('Erro ao exportar CSV', err);
-        alert('Erro ao exportar CSV');
-      }
-    }
-
-    // ==== SUBMITS ====
-    document.getElementById('driver-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('driver-name').value;
-      const phone = document.getElementById('driver-phone').value;
-
-      const res = await fetch(`${API_BASE}/api/drivers`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone })
-      });
-
-      if (!res.ok) {
-        alert('Erro ao salvar motorista');
-        return;
-      }
-
-      e.target.reset();
-      loadDrivers();
-      loadDashboard();
-    });
-
-    document.getElementById('truck-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const plate = document.getElementById('truck-plate').value;
-      const model = document.getElementById('truck-model').value;
-      const year = document.getElementById('truck-year').value;
-
-      const res = await fetch(`${API_BASE}/api/trucks`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plate, model, year })
-      });
-
-      if (!res.ok) {
-        alert('Erro ao salvar caminhão');
-        return;
-      }
-
-      e.target.reset();
-      loadTrucks();
-      loadDashboard();
-    });
-
-    document.getElementById('expense-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const driver_id = document.getElementById('expense-driver').value;
-      const truck_id = document.getElementById('expense-truck').value || null;
-      const category_id = document.getElementById('expense-category').value;
-      const date = document.getElementById('expense-date').value;
-      const value = parseFloat(document.getElementById('expense-value').value);
-      const invoice_number = document.getElementById('expense-invoice').value;
-      const supplier = document.getElementById('expense-supplier').value;
-      const description = document.getElementById('expense-description').value;
-
-      const res = await fetch(`${API_BASE}/api/expenses`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          driver_id,
-          truck_id,
-          category_id,
-          date,
-          value,
-          invoice_number,
-          supplier,
-          description
-        })
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        alert('Erro ao salvar gasto: ' + (err.error || ''));
-        return;
-      }
-
-      e.target.reset();
-      loadExpenses();
-      loadDashboard();
-    });
-
-    document.getElementById('filter-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      loadExpenses();
-    });
-
-    // ==== INICIALIZAÇÃO ====
-    async function initApp() {
-      await loadDrivers();
-      await loadTrucks();
-      await loadCategories();
-      await loadExpenses();
-      await loadDashboard();
-    }
-
-    // ==== PARALLAX LEVE NO FUNDO ====
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      document.body.style.backgroundPositionY = `${y * -0.15}px`;
-    });
-  </script>
+  <script src="js/app.js"></script>
 </body>
 </html>
